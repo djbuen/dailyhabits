@@ -29,10 +29,11 @@ class Schema < ActiveRecord::Migration
       t.timestamp
     end
 
+    # Many to many rich join
     # Holds habits schedule
     # habit belongs to a user
     # user belongs to a habit
-    create_table :habits_users, :id => false do |t|
+    create_table :habit_users do |t|
       t.references :habit
       t.references :user
       t.boolean :monday
@@ -44,7 +45,7 @@ class Schema < ActiveRecord::Migration
       t.boolean :sunday
       t.timestamp
     end
-    add_index :habits_users, [:habit_id,:user_id]
+    add_index :habit_users, [:habit_id,:user_id]
 
     # Many to Many Rich Join
     # Holds date,comments and mood
@@ -60,14 +61,14 @@ class Schema < ActiveRecord::Migration
       t.datetime :date
       t.timestamp
     end
-    add_index :logs, [:user_id,:habit_id]
+    add_index :logs, [:habit_id, :user_id]
   end
 
   def self.down
     drop_table :users
     drop_table :habits
     drop_table :categories
-    drop_table :habits_users
+    drop_table :habit_users
     drop_table :logs
   end
 end

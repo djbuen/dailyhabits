@@ -1,4 +1,5 @@
 class Habit < ActiveRecord::Base
-  has_and_belongs_to_many :users
+  has_many :user_habits, :class_name => 'HabitUser'
+  has_many :users, :through => :user_habits
   belongs_to :category, :class_name => "Categories"
 end

@@ -17,14 +17,7 @@ ActiveRecord::Schema.define(:version => 20110511120319) do
     t.string "image"
   end
 
-  create_table "habits", :force => true do |t|
-    t.integer "category_id"
-    t.string  "description"
-  end
-
-  add_index "habits", ["category_id"], :name => "index_habits_on_category_id"
-
-  create_table "habits_users", :id => false, :force => true do |t|
+  create_table "habit_users", :force => true do |t|
     t.integer "habit_id"
     t.integer "user_id"
     t.boolean "monday"
@@ -36,7 +29,14 @@ ActiveRecord::Schema.define(:version => 20110511120319) do
     t.boolean "sunday"
   end
 
-  add_index "habits_users", ["habit_id", "user_id"], :name => "index_habits_users_on_habit_id_and_user_id"
+  add_index "habit_users", ["habit_id", "user_id"], :name => "index_habit_users_on_habit_id_and_user_id"
+
+  create_table "habits", :force => true do |t|
+    t.integer "category_id"
+    t.string  "description"
+  end
+
+  add_index "habits", ["category_id"], :name => "index_habits_on_category_id"
 
   create_table "logs", :force => true do |t|
     t.integer  "user_id"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20110511120319) do
     t.datetime "date"
   end
 
-  add_index "logs", ["user_id", "habit_id"], :name => "index_logs_on_user_id_and_habit_id"
+  add_index "logs", ["habit_id", "user_id"], :name => "index_logs_on_habit_id_and_user_id"
 
   create_table "users", :force => true do |t|
     t.string "username", :limit => 25
